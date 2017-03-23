@@ -36,8 +36,8 @@ import javax.annotation.Nullable;
  * into Snowflake.
  */
 @Plugin(type = Action.PLUGIN_TYPE)
-@Name("LoadDataToSnowflake")
-@Description("LoadDataToSnowflake action to load data from internal/external location(Amazon S3)" +
+@Name("LoadToSnowflake")
+@Description("LoadToSnowflake action to load data from internal/external location(Amazon S3)" +
   " into the Snowflake table.")
 public class LoadDataToSnowflake extends Action {
   private static final String ACCESS_CREDENTIALS = "Access Credentials";
@@ -126,23 +126,23 @@ public class LoadDataToSnowflake extends Action {
     @Macro
     private String accountName;
 
-    @Description("Username of the snowflake account. (Macro-enabled)")
+    @Description("Username of the Snowflake account. (Macro-enabled)")
     @Macro
     private String userName;
 
-    @Description("Password. (Macro-enabled)")
+    @Description("Password of the Snowflake account. (Macro-enabled)")
     @Macro
     private String password;
 
-    @Description("Snowflake Warehouse. (Macro-enabled)")
+    @Description("The name of the Snowflake Warehouse. (Macro-enabled)")
     @Macro
     private String warehouse;
 
-    @Description("Database name. (Macro-enabled)")
+    @Description("The Database name in the Snowflake Warehouse. (Macro-enabled)")
     @Macro
     private String dbName;
 
-    @Description("Schema name. (Macro-enabled)")
+    @Description("The name of the schema for the table in the Snowflake Warehouse. (Macro-enabled)")
     @Macro
     private String schema;
 

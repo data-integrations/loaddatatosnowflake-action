@@ -4,7 +4,7 @@
   },
   "configuration-groups": [
     {
-      "label": "LoadDataToSnowflake Configuration",
+      "label": "LoadToSnowflake Configuration",
       "properties": [
         {
           "widget-type": "textbox",
