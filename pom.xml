@@ -76,7 +76,7 @@
   </repositories>
 
   <properties>
-    <cdap.version>6.0.0-SNAPSHOT</cdap.version>
+    <cdap.version>6.1.0-SNAPSHOT</cdap.version>
     <snowflake.version>3.0.9</snowflake.version>
     <junit.version>4.11</junit.version>
     <commons-lang.version>2.6</commons-lang.version>
@@ -296,8 +296,8 @@
         <version>1.1.0</version>
         <configuration>
           <cdapArtifacts>
-            <parent>system:cdap-data-pipeline[6.0.0-SNAPSHOT,7.0.0-SNAPSHOT)</parent>
-            <parent>system:cdap-data-streams[6.0.0-SNAPSHOT,7.0.0-SNAPSHOT)</parent>
+            <parent>system:cdap-data-pipeline[6.1.0-SNAPSHOT,7.0.0-SNAPSHOT)</parent>
+            <parent>system:cdap-data-streams[6.1.0-SNAPSHOT,7.0.0-SNAPSHOT)</parent>
           </cdapArtifacts>
         </configuration>
         <executions>
