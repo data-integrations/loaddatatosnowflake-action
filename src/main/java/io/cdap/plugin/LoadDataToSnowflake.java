@@ -21,6 +21,7 @@ import io.cdap.cdap.api.annotation.Macro;
 import io.cdap.cdap.api.annotation.Name;
 import io.cdap.cdap.api.annotation.Plugin;
 import io.cdap.cdap.api.plugin.PluginConfig;
+import io.cdap.cdap.etl.api.FailureCollector;
 import io.cdap.cdap.etl.api.PipelineConfigurer;
 import io.cdap.cdap.etl.api.action.Action;
 import io.cdap.cdap.etl.api.action.ActionContext;
@@ -52,14 +53,14 @@ public class LoadDataToSnowflake extends Action {
   }
 
   @Override
-  public void configurePipeline(PipelineConfigurer pipelineConfigurer) throws IllegalArgumentException {
+  public void configurePipeline(PipelineConfigurer pipelineConfigurer) {
     if (config.dataSource.equalsIgnoreCase(EXTERNAL_LOCATION)) {
-      config.validate(config.s3AuthenticationMethod);
+      config.validate(config.s3AuthenticationMethod, pipelineConfigurer.getStageConfigurer().getFailureCollector());
     }
   }
 
   @Override
-  public void run(ActionContext actionContext) throws Exception {
+  public void run(ActionContext actionContext) {
     try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
       statement.executeUpdate(buildCreateStageCommand());
       if (config.dataSource.equalsIgnoreCase(INTERNAL_LOCATION)) {
@@ -122,6 +123,8 @@ public class LoadDataToSnowflake extends Action {
    * Config class for LoadDataToSnowflake
    */
   public static class LoadDataToSnowflakeConfig extends PluginConfig {
+    private static final String ACCESS_KEY = "accessKey";
+    private static final String SECRET_ACCESS_KEY = "secretAccessKey";
 
     @Description("Snowflake account name. (Macro-enabled)")
     @Macro
@@ -209,15 +212,16 @@ public class LoadDataToSnowflake extends Action {
       this.s3AuthenticationMethod = ACCESS_CREDENTIALS;
     }
 
-    public void validate(String authenticationMethod) {
+    public void validate(String authenticationMethod, FailureCollector collector) {
       if (authenticationMethod.equalsIgnoreCase(ACCESS_CREDENTIALS)) {
-        if (!containsMacro("accessKey") && (accessKey == null || accessKey.isEmpty())) {
-          throw new IllegalArgumentException("The Access Key must be specified if " +
-                                               "authentication method is Access Credentials.");
+        if (!containsMacro(ACCESS_KEY) && (accessKey == null || accessKey.isEmpty())) {
+          collector.addFailure("The Access Key must be specified if " +
+                                 "authentication method is Access Credentials.", null).withConfigProperty(ACCESS_KEY);
         }
-        if (!containsMacro("secretAccessKey") && (secretAccessKey == null || secretAccessKey.isEmpty())) {
-          throw new IllegalArgumentException("The Secret Access Key must be specified if " +
-                                               "authentication method is Access Credentials.");
+        if (!containsMacro(SECRET_ACCESS_KEY) && (secretAccessKey == null || secretAccessKey.isEmpty())) {
+          collector.addFailure("The Secret Access Key must be specified if " +
+                                 "authentication method is Access Credentials.", null)
+            .withConfigProperty(SECRET_ACCESS_KEY);
         }
       }
     }
