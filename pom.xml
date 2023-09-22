@@ -77,7 +77,7 @@
 
   <properties>
     <cdap.version>6.1.0-SNAPSHOT</cdap.version>
-    <snowflake.version>3.0.9</snowflake.version>
+    <snowflake.version>3.13.29</snowflake.version>
     <junit.version>4.11</junit.version>
     <commons-lang.version>2.6</commons-lang.version>
     <guava.version>19.0</guava.version>
